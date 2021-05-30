@@ -1,15 +1,22 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import classnames from 'classnames';
 import './CitySelector.css';
 
 export default function CitySelector(props) {
-    const { show, isDataLoading, cityData, onBack } = props;
+    const { show, isDataLoading, cityData, onBack, fetchCityData } = props;
 
     const [keyword, setKeyword] = useState('');
 
     const key = useMemo(() => {
         return keyword.trim();
     }, [keyword]);
+
+    useEffect(() => {
+        if (!show || isDataLoading || cityData) {
+            return;
+        }
+        fetchCityData();
+    }, [show, isDataLoading, cityData]);
 
     return (
         <div className={classnames('city-selector', { hidden: !show })}>

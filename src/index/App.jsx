@@ -14,12 +14,12 @@ import {
     exchangeFromAndTo,
     showCitySelector,
     hideCitySelector,
-    fetchCityData,
     setSelectedCity,
     showDateSelector,
     hideDateSelector,
     setDepartDate,
     toggleHighSpeed,
+    fetchCityData,
 } from './actions';
 
 function App(props) {
@@ -53,6 +53,7 @@ function App(props) {
         return bindActionCreators(
             {
                 onBack: hideCitySelector,
+                fetchCityData,
             },
             dispatch
         );
