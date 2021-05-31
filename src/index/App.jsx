@@ -14,12 +14,12 @@ import {
     exchangeFromAndTo,
     showCitySelector,
     hideCitySelector,
-    setSelectedCity,
     showDateSelector,
     hideDateSelector,
     setDepartDate,
     toggleHighSpeed,
     fetchCityData,
+    setSelectCity,
 } from './actions';
 
 function App(props) {
@@ -54,6 +54,7 @@ function App(props) {
             {
                 onBack: hideCitySelector,
                 fetchCityData,
+                onSelect: setSelectCity,
             },
             dispatch
         );

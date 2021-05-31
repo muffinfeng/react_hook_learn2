@@ -74,6 +74,8 @@ export function setSelectCity(city) {
         } else {
             dispatch(setTo(city));
         }
+
+        dispatch(hideCitySelector());
     };
 }
 
@@ -114,15 +116,18 @@ export function fetchCityData() {
             return;
         }
 
-        const cache = JSON.parse(localStorage.getItem('city_data_cache') || '');
-        if (cache.expires < Date.now()) {
+        const cache = JSON.parse(
+            localStorage.getItem('city_data_cache') || '{}'
+        );
+
+        if ( Date.now()  < cache.expires ) {
             dispatch(setCityData(cache.data));
             return;
         }
 
         dispatch(setIsLoadingCityData(true));
 
-        fetch('/rest/cityData?_' + Date.now())
+        fetch('/rest/cities?_' + Date.now())
             .then(res => res.json())
             .then(json => {
                 dispatch(setCityData(json));
