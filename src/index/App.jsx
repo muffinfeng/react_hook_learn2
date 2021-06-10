@@ -67,7 +67,7 @@ function App(props) {
             </div>
             <form>
                 <Journey from={from} to={to} {...cbs} />
-                <DepartDate />
+                <DepartDate time={ departDate }/>
                 <HighSpeed />
                 <Submit />
             </form>
