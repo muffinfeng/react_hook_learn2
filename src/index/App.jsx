@@ -60,6 +60,15 @@ function App(props) {
         );
     }, []);
 
+    const departDateCbs = useMemo(() => {
+        return bindActionCreators(
+            {
+                onClick: showDateSelector
+            },
+            dispatch
+        )
+    }, []);
+
     return (
         <div>
             <div className="header-wrapper">
@@ -67,7 +76,10 @@ function App(props) {
             </div>
             <form>
                 <Journey from={from} to={to} {...cbs} />
-                <DepartDate time={ departDate }/>
+                <DepartDate 
+                    time={ departDate } 
+                    {...departDateCbs}
+                />
                 <HighSpeed />
                 <Submit />
             </form>

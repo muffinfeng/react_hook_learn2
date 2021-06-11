@@ -11,6 +11,7 @@ export const ACTION_SET_IS_LOADING_CITY_DATA = 'SET_IS_LOADING_CITY_DATA';
 export const ACTION_SET_IS_DATE_SELECTOR_VISIBLE =
     'ACTION_SET_IS_DATE_SELECTOR_VISIBLE';
 export const ACTION_SET_HIGHT_SPEED = 'SET_HIGHT_SPEED';
+export const ACTION_SET_DEPART_DATE = 'SET_DEPART_DATE';
 
 export function setFrom(from) {
     return {
@@ -106,6 +107,13 @@ export function exchangeFromAndTo() {
         dispatch(setFrom(to));
         dispatch(setTo(from));
     };
+}
+
+export function setDepartDate(data) {
+    return {
+        type: ACTION_SET_DEPART_DATE,
+        payload: data,
+    }
 }
 
 export function fetchCityData() {
