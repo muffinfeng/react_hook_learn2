@@ -8,7 +8,9 @@ import HighSpeed from './HighSpeed';
 import Journey from './Journey';
 import Submit from './Submit';
 import CitySelector from '../common/CitySelector';
+import DateSelector from '../common/DateSelector';
 import { bindActionCreators } from 'redux';
+import { h0 } from '../common/fp';
 
 import {
     exchangeFromAndTo,
@@ -63,10 +65,41 @@ function App(props) {
     const departDateCbs = useMemo(() => {
         return bindActionCreators(
             {
-                onClick: showDateSelector
+                onClick: showDateSelector,
             },
             dispatch
-        )
+        );
+    }, []);
+
+    const dateSelectorCbs = useMemo(() => {
+        return bindActionCreators(
+            {
+                onBack: hideDateSelector,
+            },
+            dispatch
+        );
+    }, []);
+
+    const selectDate = useCallback(date => {
+        if (!date) {
+            return;
+        }
+
+        if (date < h0()) {
+            return;
+        }
+
+        dispatch(hideDateSelector());
+        dispatch(setDepartDate(date));
+    }, []);
+
+    const highSpeedCbs = useMemo(() => {
+        return bindActionCreators(
+            {
+                toggle: toggleHighSpeed,
+            },
+            dispatch
+        );
     }, []);
 
     return (
@@ -74,13 +107,10 @@ function App(props) {
             <div className="header-wrapper">
                 <Header onBack={onBack} title="火车票" />
             </div>
-            <form>
+            <form action="./query.html" className="form">
                 <Journey from={from} to={to} {...cbs} />
-                <DepartDate 
-                    time={ departDate } 
-                    {...departDateCbs}
-                />
-                <HighSpeed />
+                <DepartDate time={departDate} {...departDateCbs} />
+                <HighSpeed highSpeed={highSpeed} {...highSpeedCbs} />
                 <Submit />
             </form>
             <CitySelector
@@ -88,6 +118,11 @@ function App(props) {
                 show={isCitySelectorVisible}
                 cityData={cityData}
                 {...citySelectorCbs}
+            />
+            <DateSelector
+                show={isDateSelectorVisible}
+                {...dateSelectorCbs}
+                onSelect={selectDate}
             />
         </div>
     );
