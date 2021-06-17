@@ -75,11 +75,12 @@
       "react-app"
     ],
     "rules": {
+      "no-console": "off",
       "react/jsx-indent": [
         "error",
         4
-      ],
-      "no-console": "off"
+      ]
+      
     }
   },
   "husky": {
