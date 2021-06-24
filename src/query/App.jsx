@@ -8,6 +8,7 @@ import Header from '../common/Header';
 import URI from 'urijs';
 import { h0 } from '../common/fp';
 import dayjs from 'dayjs';
+import useNav from '../common/useNav';
 
 import {
     setFrom,
@@ -20,6 +21,8 @@ import {
     setTrainTypes,
     setDepartStations,
     setArriveStations,
+    nextDate,
+    prevDate,
 } from './actions';
 
 function App(props) {
@@ -139,6 +142,14 @@ function App(props) {
         arriveTimeEnd,
     ]);
 
+    const {
+        isPrevDisable,
+        isNextDisable,
+        prev,
+        next
+    } = useNav(departDate, dispatch, prevDate, nextDate);//自定義hook
+    
+
     if (!searchParsed) {
         return null;
     }
@@ -148,7 +159,13 @@ function App(props) {
             <div className="header-wrapper">
                 <Header title={`${from} ⇀ ${to}`} onBack={back} />
             </div>
-            <Nav />
+            <Nav 
+                departDate={departDate}
+                prev={prev}
+                next={next}
+                isPrevDisable={isPrevDisable}
+                isNextDisable={isNextDisable}
+            />
             <List />
             <Bottom />
         </div>
