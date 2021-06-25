@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import './App.css';
 import Nav from '../common/Nav.jsx';
 import List from './List.jsx';
@@ -21,9 +21,18 @@ import {
     setTrainTypes,
     setDepartStations,
     setArriveStations,
+    toggleIsFiltersVisible,
+    toggleOnlyTickets,
+    toggleOrderType,
+    toggleHighSpeed,
+    setDepartTimeStart,
+    setDepartTimeEnd,
+    setArriveTimeStart,
+    setArriveTimeEnd,
     nextDate,
     prevDate,
 } from './actions';
+import { bindActionCreators } from 'redux';
 
 function App(props) {
     const {
@@ -149,6 +158,22 @@ function App(props) {
         next
     } = useNav(departDate, dispatch, prevDate, nextDate);//自定義hook
     
+    const bottomCbs = useMemo(() => {
+        return bindActionCreators({
+            toggleIsFiltersVisible,
+            toggleOnlyTickets,
+            toggleOrderType,
+            toggleHighSpeed,
+            setTicketTypes,
+            setTrainTypes,
+            setDepartStations,
+            setArriveStations,
+            setDepartTimeStart,
+            setDepartTimeEnd,
+            setArriveTimeStart,
+            setArriveTimeEnd,
+        },dispatch)
+    },[]);
 
     if (!searchParsed) {
         return null;
@@ -166,8 +191,27 @@ function App(props) {
                 isPrevDisable={isPrevDisable}
                 isNextDisable={isNextDisable}
             />
-            <List />
-            <Bottom />
+            <List list={trainList}/>
+            <Bottom 
+                orderType={orderType}
+                highSpeed={highSpeed}
+                onlyTickets={onlyTickets}
+                isFiltersVisible={isFiltersVisible}
+
+                ticketTypes={ticketTypes}
+                trainTypes={trainTypes}
+                departStations={departStations}
+                arriveStations={arriveStations}
+                checkedTicketTypes={checkedTicketTypes}
+                checkedTrainTypes={checkedTrainTypes}
+                checkedDepartStations={checkedDepartStations}
+                checkedArriveStations={checkedArriveStations}
+                departTimeStart={departTimeStart}
+                departTimeEnd={departTimeEnd}
+                arriveTimeStart={arriveTimeStart}
+                arriveTimeEnd={arriveTimeEnd}
+                {...bottomCbs}
+            />
         </div>
     );
 }
